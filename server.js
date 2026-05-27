@@ -1,33 +1,52 @@
 const express = require("express");
 const cors = require("cors");
+const { createClient } = require("@supabase/supabase-js");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_KEY
+);
+
 app.get("/", (req, res) => {
   res.send("API funcionando!");
 });
 
-// WEBHOOK YAMPI
 app.post("/api/yampi/webhook", async (req, res) => {
   try {
-    console.log("Webhook Yampi recebido:");
-    console.log(req.body);
+
+    console.log("Webhook recebido");
+
+    const data = req.body;
+
+    await supabase
+      .from("orders")
+      .insert([
+        {
+          order_id: data.id?.toString(),
+          customer_name: data.customer?.name || "",
+          customer_email: data.customer?.email || "",
+          total: data.total || "",
+          status: data.status || ""
+        }
+      ]);
 
     res.status(200).json({
-      success: true,
-      received: req.body
+      success: true
     });
 
   } catch (error) {
+
     console.error(error);
 
     res.status(500).json({
-      success: false,
       error: error.message
     });
+
   }
 });
 
