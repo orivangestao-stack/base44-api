@@ -1,3 +1,1 @@
-git add .
-git commit -m "corrige sintaxe webhook"
-git push
+npm install @supabase/supabase-js
