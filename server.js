@@ -10,9 +10,9 @@ app.get("/", (req, res) => {
   res.send("API funcionando!");
 });
 
-app.post("/webhook", async (req, res) => {
+app.post("/api/yampi/webhook", async (req, res) => {
   try {
-    console.log("Dados recebidos:");
+    console.log("Webhook Yampi recebido:");
     console.log(req.body);
 
     res.json({
