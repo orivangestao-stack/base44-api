@@ -1,3 +1,3 @@
 git add .
-git commit -m "corrige webhook yampi"
+git commit -m "corrige sintaxe webhook"
 git push
